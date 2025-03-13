@@ -1,13 +1,25 @@
-export default function Song({ title, artist, year, isSelected }) {
+import React from "react";
+
+export default function Song( props ) {
+  const descriptionItems = [];
+
   let marker = '';
-  if (isSelected) {
+  if (props.isSelected) {
     marker = '* ';
+  }
+
+  if (props.year) {
+    descriptionItems.push('Year: ' + props.year);
+  }
+
+  if (props.genre) {
+    descriptionItems.push('Genre: ' + props.genre);
   }
 
   return (
     <>
-      <h3>{marker}{artist}: {title}</h3>
-      Year: {year}
+      <h3>{marker}{props.artist}: {props.title}</h3>
+      {descriptionItems.join(' | ')}
     </>
   );
 }

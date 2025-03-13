@@ -55,14 +55,15 @@ function playStateReducer(state, action) {
       break;
     case 'shuffle':
       // TODO(MPM): Shuffle does not work the first time the button is clicked.
-      state.shuffle ? newState.shuffle = false : newState.shuffle = true;
-      if (newState.shuffle) {
+      if (state.shuffle) {
+        newState.shuffle = false;
+        newState.currentPlaylist = Array.from(state.origPlaylist);
+      } else {
+        newState.shuffle = true;
         for (let iterIndex = state.currentPlaylist.length - 1; iterIndex > 0; --iterIndex) {
           const randIndex = Math.floor(Math.random() * (iterIndex + 1));
           [newState.currentPlaylist[iterIndex], newState.currentPlaylist[randIndex]] = [state.currentPlaylist[randIndex], state.currentPlaylist[iterIndex]];
         }
-      } else {
-        newState.currentPlaylist = Array.from(state.origPlaylist);
       }
       break;
     default:
@@ -80,14 +81,7 @@ function playStateReducer(state, action) {
     }
   }
 
-  return {
-    ...state,
-    origPlaylist: newState.origPlaylist,
-    currentPlaylist: newState.currentPlaylist,
-    playState: newState.playState,
-    currentIndex: newState.currentIndex,
-    currentStatus: newState.currentStatus,
-    shuffle: newState.shuffle}
+  return { ...state, ...newState}
 }
 
 function App() {
