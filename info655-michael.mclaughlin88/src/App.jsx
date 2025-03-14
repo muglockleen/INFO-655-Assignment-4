@@ -97,12 +97,13 @@ function App() {
 
   const [state, dispatchState] = useReducer(playStateReducer, initialState);
 
+  // Nothing I try here seems to work.
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Had to add 'playList' field to the JSON, as I was getting parser errors
         // with a straight up array.
-        const response = await fetch('http://localhost:3001/playList');
+        const response = await fetch('./audio.json');
         if (response.ok) {
           const result = await response.json();
           dispatchState({type: 'setList', payload: result});
@@ -113,6 +114,12 @@ function App() {
     }
     fetchData();
   }, []);
+  // useEffect(() => {
+  //   fetch('./audio.json').then((res)=>res.json()).then((data) => {
+  //     dispatchState({type: 'setList', payload: data})
+  //    })
+     
+  // }, [])
 
   return (
     <>
